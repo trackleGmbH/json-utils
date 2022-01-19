@@ -1,15 +1,16 @@
 package com.ubirch.util.json
 
-import java.io.ByteArrayInputStream
-
 import org.joda.time._
 import org.json4s.Formats
-import org.scalatest.{FeatureSpec, Matchers}
+import org.scalatest.featurespec.AnyFeatureSpec
+import org.scalatest.matchers.should.Matchers
+
+import java.io.ByteArrayInputStream
 
 /**
   * Created by derMicha on 01/08/16.
   */
-class Json4sUtilSpec extends FeatureSpec
+class Json4sUtilSpec extends AnyFeatureSpec
   with Matchers {
 
   case class TestModel(name: String, age: Int, created: DateTime)
@@ -18,9 +19,9 @@ class Json4sUtilSpec extends FeatureSpec
 
   implicit val formats: Formats = JsonFormats.default
 
-  feature("any2String()") {
+  Feature("any2String()") {
 
-    scenario("transformation successful") {
+    Scenario("transformation successful") {
 
       // prepare
       val testModel = Simple("heinz")
@@ -39,9 +40,9 @@ class Json4sUtilSpec extends FeatureSpec
 
   }
 
-  feature("any2jvalue()") {
+  Feature("any2jvalue()") {
 
-    scenario("test any2value") {
+    Scenario("test any2value") {
 
       // prepare
       val name = "heinz"
@@ -79,9 +80,9 @@ class Json4sUtilSpec extends FeatureSpec
 
   }
 
-  feature("inputstream2jvalue") {
+  Feature("inputstream2jvalue") {
 
-    scenario("test inputstream") {
+    Scenario("test inputstream") {
 
       // prepare
       val doc = Simple(a = "B")
@@ -102,9 +103,9 @@ class Json4sUtilSpec extends FeatureSpec
 
   }
 
-  feature("any2any()") {
+  Feature("any2any()") {
 
-    scenario("ModelA to ModelA") {
+    Scenario("ModelA to ModelA") {
 
       // prepare
       val in = ModelA(id = 1L, someField = "foo")
@@ -117,7 +118,7 @@ class Json4sUtilSpec extends FeatureSpec
 
     }
 
-    scenario("ModelA to ModelB (covers: optional fields && B has a field that A does not have)") {
+    Scenario("ModelA to ModelB (covers: optional fields && B has a field that A does not have)") {
 
       // prepare
       val in = ModelA(id = 1L, someField = "foo")
@@ -128,11 +129,10 @@ class Json4sUtilSpec extends FeatureSpec
       // verify
       result.id.get shouldBe in.id
       result.someField shouldBe in.someField
-      result.anotherField should be('isEmpty)
-
+      result.anotherField.isEmpty shouldBe true
     }
 
-    scenario("ModelB to ModelA (covers: optional fields && B has a field that A does not have)") {
+    Scenario("ModelB to ModelA (covers: optional fields && B has a field that A does not have)") {
 
       // prepare
       val in = ModelB(
